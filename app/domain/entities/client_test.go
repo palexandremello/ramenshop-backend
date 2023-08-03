@@ -26,4 +26,13 @@ func TestClient(t *testing.T) {
 		assert.Equal(t, "name is required", err.Error())
 	})
 
+	t.Run("should return an error if name have less than 5 characters", func(t *testing.T) {
+
+		c, err := NewClient(1, "taok", Male, 20)
+
+		assert.Error(t, err)
+		assert.Nil(t, c)
+		assert.Equal(t, "name must have at least 5 characters", err.Error())
+	})
+
 }
