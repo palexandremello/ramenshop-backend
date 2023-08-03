@@ -44,4 +44,16 @@ func TestClient(t *testing.T) {
 		assert.Equal(t, "age must be between 0 and 120", err.Error())
 	})
 
+	t.Run("ensure should return a valid client", func(t *testing.T) {
+
+		c, err := NewClient(1, "Alexandre", Male, 29)
+
+		assert.NoError(t, err)
+		assert.NotNil(t, c)
+		assert.Equal(t, 1, c.ID)
+		assert.Equal(t, "Alexandre", c.Name)
+		assert.Equal(t, Male, c.Gender)
+		assert.Equal(t, 29, c.Age)
+	})
+
 }
