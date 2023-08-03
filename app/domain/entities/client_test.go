@@ -35,4 +35,13 @@ func TestClient(t *testing.T) {
 		assert.Equal(t, "name must have at least 5 characters", err.Error())
 	})
 
+	t.Run("should return an error if age is invalid", func(t *testing.T) {
+
+		c, err := NewClient(1, "Alexandre", Female, 140)
+
+		assert.Error(t, err)
+		assert.Nil(t, c)
+		assert.Equal(t, "age must be between 0 and 120", err.Error())
+	})
+
 }
