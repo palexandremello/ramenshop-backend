@@ -44,6 +44,15 @@ func TestClient(t *testing.T) {
 		assert.Equal(t, "age must be between 0 and 120", err.Error())
 	})
 
+	t.Run("should return an error if gender is not contemplated", func(t *testing.T) {
+
+		c, err := NewClient(1, "Alexandre", 3, 29)
+
+		assert.Error(t, err)
+		assert.Nil(t, c)
+		assert.Equal(t, "For now we have only two genders, sorry. We Will fix it soon", err.Error())
+	})
+
 	t.Run("ensure should return a valid client", func(t *testing.T) {
 
 		c, err := NewClient(1, "Alexandre", Male, 29)
