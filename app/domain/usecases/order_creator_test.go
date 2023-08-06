@@ -33,8 +33,7 @@ func TestOrderCreator(t *testing.T) {
 
 	t.Run("should be able to create a new order", func(t *testing.T) {
 		mockRepo := new(MockOrderRepository)
-		NewOrderCreator()
-		uc := &orderCreatorImpl{orderRepo: mockRepo}
+		uc := NewOrderCreator(mockRepo)
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Order")).Return(nil)
 
@@ -45,10 +44,10 @@ func TestOrderCreator(t *testing.T) {
 		assert.Equal(t, items, order.Items)
 		mockRepo.AssertExpectations(t)
 	})
-	t.Run("should return an error when repository fails", func(t *testing.T) {
-		mockRepo := new(MockOrderRepository)
 
-		uc := &orderCreatorImpl{orderRepo: mockRepo}
+	t.Run("test create order when repo returns an error", func(t *testing.T) {
+		mockRepo := new(MockOrderRepository)
+		uc := NewOrderCreator(mockRepo)
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Order")).Return(errors.New("DB error"))
 
