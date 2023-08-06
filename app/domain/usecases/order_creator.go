@@ -13,9 +13,9 @@ type orderCreatorImpl struct {
 	orderRepo repositories.OrderRepository // Use a interface aqui
 }
 
-// Verifique se orderCreatorImpl implementa a interface OrderCreator
 var _ usecases.OrderCreator = &orderCreatorImpl{}
 
+// NewOrderCreator usecase Factory
 func NewOrderCreator(repo repositories.OrderRepository) usecases.OrderCreator { // Use a interface aqui
 	return &orderCreatorImpl{orderRepo: repo}
 }
