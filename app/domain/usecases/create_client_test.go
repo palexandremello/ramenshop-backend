@@ -54,4 +54,16 @@ func TestCreateClient(t *testing.T) {
 
 	})
 
+	t.Run("should return an error if name have less then 5 characters", func(t *testing.T) {
+		mockRepo := new(MockClientRepository)
+		cc := NewCreateClient(mockRepo)
+
+		mockRepo.On("Save", mock.AnythingOfType("*entities.Client")).Return(nil)
+		client, err := cc.Create(1, "taok", entities.Male, 29)
+
+		assert.Error(t, err)
+		assert.Nil(t, client)
+		assert.Equal(t, "name must have at least 5 characters", err.Error())
+	})
+
 }
