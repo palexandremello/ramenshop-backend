@@ -41,4 +41,17 @@ func TestCreateClient(t *testing.T) {
 
 	})
 
+	t.Run("should return an error if name is empty", func(t *testing.T) {
+		mockRepo := new(MockClientRepository)
+		cc := NewCreateClient(mockRepo)
+
+		mockRepo.On("Save", mock.AnythingOfType("*entities.Client")).Return(nil)
+		client, err := cc.Create(1, "", entities.Male, 29)
+
+		assert.Error(t, err)
+		assert.Nil(t, client)
+		assert.Equal(t, "name is required", err.Error())
+
+	})
+
 }
