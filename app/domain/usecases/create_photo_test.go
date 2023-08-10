@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
@@ -61,4 +62,19 @@ func TestCreatePhoto(t *testing.T) {
 		resources.mockRepo.AssertExpectations(t)
 		resources.mockHTTPService.AssertExpectations(t)
 	})
+
+	t.Run("should return an error for invalid MIME type", func(t *testing.T) {
+		url := "https://example.com/image.gif"
+
+		resources.mockHTTPService.On("GetMimeTypeFromURL", url).Return("image/gif", nil)
+
+		photo, err := resources.uc.Create(url)
+
+		assert.Error(t, err)
+		assert.Nil(t, photo)
+		assert.Equal(t, err, errors.New("Only jpeg and png are supported"))
+		resources.mockHTTPService.AssertExpectations(t)
+
+	})
+
 }
