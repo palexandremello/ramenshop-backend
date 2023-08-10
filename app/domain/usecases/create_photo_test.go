@@ -76,5 +76,14 @@ func TestCreatePhoto(t *testing.T) {
 		resources.mockHTTPService.AssertExpectations(t)
 
 	})
+	t.Run("should return an error for empty URL", func(t *testing.T) {
+		url := ""
+
+		photo, err := resources.uc.Create(url)
+
+		assert.Error(t, err)
+		assert.Nil(t, photo)
+		assert.Equal(t, err, errors.New("URL is required"))
+	})
 
 }
