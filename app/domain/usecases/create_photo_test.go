@@ -100,4 +100,21 @@ func TestCreatePhoto(t *testing.T) {
 
 	})
 
+	t.Run("should return an error if Save method fails", func(t *testing.T) {
+		resources := setUp()
+
+		url := "https://example.com/image.jpg"
+		resources.mockHTTPService.On("GetMimeTypeFromURL", url).Return("image/jpeg", nil)
+		resources.mockRepo.On("Save", mock.AnythingOfType("*entities.Photo")).Return(errors.New("DB save error"))
+
+		photo, err := resources.uc.Create(url)
+
+		assert.Error(t, err)
+		assert.Nil(t, photo)
+		assert.Equal(t, err.Error(), "DB save error")
+		resources.mockRepo.AssertExpectations(t)
+		resources.mockHTTPService.AssertExpectations(t)
+
+	})
+
 }
