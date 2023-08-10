@@ -86,4 +86,18 @@ func TestCreatePhoto(t *testing.T) {
 		assert.Equal(t, err, errors.New("URL is required"))
 	})
 
+	t.Run("should return an error if GetMimeTypeFromURL returns an error", func(t *testing.T) {
+
+		url := "https://example.com/image.jpg"
+		resources.mockHTTPService.On("GetMimeTypeFromURL", url).Return("", errors.New("HTTP error"))
+
+		photo, err := resources.uc.Create(url)
+
+		assert.Error(t, err)
+		assert.Nil(t, photo)
+		assert.Equal(t, err.Error(), "HTTP error")
+		resources.mockHTTPService.AssertExpectations(t)
+
+	})
+
 }
