@@ -61,4 +61,20 @@ func TestDishUseCase_Create(t *testing.T) {
 		mockRepo.AssertExpectations(t)
 
 	})
+
+	t.Run("should not be able to create a dish without a name", func(t *testing.T) {
+		mockRepo := new(MockDishRepository)
+		du := NewDishUseCase(mockRepo)
+		photo := &entities.Photo{
+			URL: "https://www.google.com",
+		}
+		dishName := ""
+		description := "Tasty ramen with vegetables"
+
+		dish, err := du.Create(dishName, description, photo)
+
+		assert.Error(t, err)
+		assert.Nil(t, dish)
+		assert.Equal(t, err.Error(), "name is required")
+	})
 }

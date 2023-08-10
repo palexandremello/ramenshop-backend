@@ -5,13 +5,17 @@ import (
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
 	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories"
+	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/usecases"
 )
 
 type dishUseCaseImpl struct {
 	dishRepo repositories.DishRepository
 }
 
-func NewDishUseCase(repo repositories.DishRepository) *dishUseCaseImpl {
+var _ usecases.CreateDish = &dishUseCaseImpl{}
+
+// NewDishUseCase creates a new instance of CreateDish
+func NewDishUseCase(repo repositories.DishRepository) usecases.CreateDish {
 	return &dishUseCaseImpl{dishRepo: repo}
 }
 
