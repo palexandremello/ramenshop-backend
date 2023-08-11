@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
+	repomocks "github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -16,7 +17,7 @@ func TestOrderCreator(t *testing.T) {
 	}
 
 	t.Run("should be able to create a new order", func(t *testing.T) {
-		mockRepo := new(MockOrderRepository)
+		mockRepo := new(repomocks.MockOrderRepository)
 		uc := NewOrderCreator(mockRepo)
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Order")).Return(nil)
@@ -30,7 +31,7 @@ func TestOrderCreator(t *testing.T) {
 	})
 
 	t.Run("test create order when repo returns an error", func(t *testing.T) {
-		mockRepo := new(MockOrderRepository)
+		mockRepo := new(repomocks.MockOrderRepository)
 		uc := NewOrderCreator(mockRepo)
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Order")).Return(errors.New("DB error"))

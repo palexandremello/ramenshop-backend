@@ -30,7 +30,7 @@ func (du *dishUseCaseImpl) Create(name string, description string, photo *entiti
 		Photo:       photo,
 	}
 
-	err := du.dishRepo.Save(dish)
+	err := du.dishRepo.AddDish(dish)
 
 	if err != nil {
 		return nil, err

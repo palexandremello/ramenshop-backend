@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
+	repomocks "github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -11,7 +12,7 @@ import (
 func TestDishUseCase_Create(t *testing.T) {
 
 	t.Run("should be able to create a new dish", func(t *testing.T) {
-		mockRepo := new(MockDishRepository)
+		mockRepo := new(repomocks.MockDishRepository)
 		du := NewDishUseCase(mockRepo)
 		photo := &entities.Photo{
 			URL: "https://www.google.com",
@@ -20,7 +21,7 @@ func TestDishUseCase_Create(t *testing.T) {
 		dishName := "Ramen"
 		description := "Tasty ramen with vegetables"
 
-		mockRepo.On("Save", mock.AnythingOfType("*entities.Dish")).Return(nil)
+		mockRepo.On("AddDish", mock.AnythingOfType("*entities.Dish")).Return(nil)
 
 		dish, err := du.Create(dishName, description, photo)
 
@@ -34,7 +35,7 @@ func TestDishUseCase_Create(t *testing.T) {
 	})
 
 	t.Run("should not be able to create a dish without a name", func(t *testing.T) {
-		mockRepo := new(MockDishRepository)
+		mockRepo := new(repomocks.MockDishRepository)
 		du := NewDishUseCase(mockRepo)
 		photo := &entities.Photo{
 			URL: "https://www.google.com",
