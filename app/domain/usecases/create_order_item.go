@@ -23,7 +23,7 @@ func NewCreateOrderItemUseCase(dishRepo repositories.DishRepository, orderRepo r
 func (ou *createOrderItemImpl) Create(orderID int, dishID int, amount int) (*entities.OrderItem, error) {
 
 	if amount <= 0 {
-		return nil, errors.New("Amount shoiuld be greater than 0")
+		return nil, errors.New("amount should be greater than 0")
 	}
 
 	order, err := ou.orderRepo.GetOrder(orderID)

@@ -35,4 +35,15 @@ func TestCreateOrderItem(t *testing.T) {
 
 	})
 
+	t.Run("should return an error if amount is less then 0", func(t *testing.T) {
+		mockDishRepo := new(repomocks.MockDishRepository)
+		mockOrderRepo := new(repomocks.MockOrderRepository)
+
+		usecase := NewCreateOrderItemUseCase(mockDishRepo, mockOrderRepo)
+
+		_, err := usecase.Create(1, 1, 0)
+		assert.Error(t, err)
+		assert.Equal(t, "amount should be greater than 0", err.Error())
+
+	})
 }
