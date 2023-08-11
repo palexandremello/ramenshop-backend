@@ -2,28 +2,12 @@ package usecases
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
-
-type MockOrderRepository struct {
-	mock.Mock
-}
-
-func (m *MockOrderRepository) Save(order *entities.Order) error {
-	fmt.Println("Save method in mock is called")
-	args := m.Called(order)
-	return args.Error(0)
-}
-func (m *MockOrderRepository) List() ([]entities.Order, error) {
-
-	args := m.Called()
-	return args.Get(0).([]entities.Order), args.Error(1)
-}
 
 func TestOrderCreator(t *testing.T) {
 	client := entities.Client{ID: 1, Name: "Daft Punk", Gender: entities.Male, Age: 29}

@@ -8,35 +8,6 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type MockDishRepository struct {
-	mock.Mock
-}
-
-func (m *MockDishRepository) Save(dish *entities.Dish) error {
-	args := m.Called(dish)
-	return args.Error(0)
-}
-
-func (m *MockDishRepository) Delete(id int) error {
-	args := m.Called(id)
-	return args.Error(0)
-}
-
-func (m *MockDishRepository) Update(dish *entities.Dish) error {
-	args := m.Called(dish)
-	return args.Error(0)
-}
-
-func (m *MockDishRepository) List() ([]entities.Dish, error) {
-	args := m.Called()
-	return args.Get(0).([]entities.Dish), args.Error(1)
-}
-
-func (m *MockDishRepository) GetByID(id int) (*entities.Dish, error) {
-	args := m.Called(id)
-	return args.Get(0).(*entities.Dish), args.Error(1)
-}
-
 func TestDishUseCase_Create(t *testing.T) {
 
 	t.Run("should be able to create a new dish", func(t *testing.T) {
