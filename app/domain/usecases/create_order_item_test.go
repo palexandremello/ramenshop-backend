@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
@@ -45,5 +46,16 @@ func TestCreateOrderItem(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, "amount should be greater than 0", err.Error())
 
+	})
+
+	t.Run("should return an error if order not found", func(t *testing.T) {
+		mockDishRepo := new(repomocks.MockDishRepository)
+		mockOrderRepo := new(repomocks.MockOrderRepository)
+
+		usecase := NewCreateOrderItemUseCase(mockDishRepo, mockOrderRepo)
+		mockOrderRepo.On("GetOrder", mock.Anything).Return((*entities.Order)(nil), errors.New("Order not found"))
+		_, err := usecase.Create(1, 1, 2)
+		assert.Error(t, err)
+		assert.Equal(t, "Order not found", err.Error())
 	})
 }

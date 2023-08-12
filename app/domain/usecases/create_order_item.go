@@ -28,11 +28,7 @@ func (ou *createOrderItemImpl) Create(orderID int, dishID int, amount int) (*ent
 
 	order, err := ou.orderRepo.GetOrder(orderID)
 
-	if err != nil {
-		return nil, err
-	}
-
-	if order == nil {
+	if err != nil || order == nil {
 		return nil, errors.New("Order not found")
 	}
 
