@@ -11,7 +11,11 @@ type MockDishRepository struct {
 
 func (m *MockDishRepository) GetDish(dishID int) (*entities.Dish, error) {
 	args := m.Called(dishID)
-	return args.Get(0).(*entities.Dish), args.Error(1)
+	dish, ok := args.Get(0).(*entities.Dish)
+	if !ok {
+		return nil, args.Error(1)
+	}
+	return dish, args.Error(1)
 }
 
 func (m *MockDishRepository) ListDishesByType(dishType entities.DishType) ([]*entities.Dish, error) {
