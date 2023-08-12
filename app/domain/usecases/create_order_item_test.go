@@ -93,4 +93,23 @@ func TestCreateOrderItem(t *testing.T) {
 		assert.Equal(t, "Dish not found", err.Error())
 	})
 
+	t.Run("should return an error if failed to add an order item", func(t *testing.T) {
+		orderID := 1
+		dishID := 100
+		amount := 2
+
+		mockDishRepo := new(repomocks.MockDishRepository)
+		mockOrderRepo := new(repomocks.MockOrderRepository)
+
+		usecase := NewCreateOrderItemUseCase(mockDishRepo, mockOrderRepo)
+
+		mockOrderRepo.On("GetOrder", orderID).Return(&entities.Order{ID: orderID}, nil)
+		mockDishRepo.On("GetDish", dishID).Return(&entities.Dish{ID: dishID, Name: "Ramen"}, nil)
+		mockOrderRepo.On("AddOrderItem", mock.Anything).Return(errors.New("Failed to add order item"))
+
+		_, err := usecase.Create(orderID, dishID, amount)
+		assert.Error(t, err)
+		assert.Equal(t, "Failed to add order item", err.Error())
+	})
+
 }
