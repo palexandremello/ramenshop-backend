@@ -1,7 +1,11 @@
 package entities
 
 // DishType entity
-type DishType struct {
-	ID   int
-	Type string
-}
+type DishType int
+
+const (
+	Acompanhamento DishType = iota
+	PratoPrincipal
+	Sobremesa
+	Drink
+)
