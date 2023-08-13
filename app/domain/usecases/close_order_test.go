@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 	"time"
 
@@ -44,5 +45,16 @@ func TestCloseOrder(t *testing.T) {
 
 		assert.NotNil(t, err)
 		assert.Equal(t, "order was closed already", err.Error())
+	})
+
+	t.Run("should return error if order not found", func(t *testing.T) {
+		mockOrderRepo := new(repomocks.MockOrderRepository)
+		usecase := NewCloseOrder(mockOrderRepo)
+
+		mockOrderRepo.On("GetOrder", 1).Return((*entities.Order)(nil), errors.New("order not found"))
+		err := usecase.Execute(1)
+
+		assert.NotNil(t, err)
+		assert.Equal(t, "order not found", err.Error())
 	})
 }
