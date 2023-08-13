@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 	"time"
 
@@ -50,5 +51,23 @@ func TestAddOrderItems(t *testing.T) {
 
 		assert.NotNil(t, err)
 		assert.Equal(t, "cannot add items to a closed order", err.Error())
+	})
+
+	t.Run("should not add items if GetOrder fails", func(t *testing.T) {
+		mockOrderRepo := new(repomocks.MockOrderRepository)
+		usecase := NewAddOrderItems(mockOrderRepo)
+		newItems := []entities.OrderItem{
+			{OrderID: 1, Dish: entities.Dish{
+				ID:   1,
+				Name: "Ramen",
+			}},
+		}
+
+		mockOrderRepo.On("GetOrder", 1).Return((*entities.Order)(nil), errors.New("any_error"))
+
+		err := usecase.Add(1, newItems)
+
+		assert.NotNil(t, err)
+		assert.Equal(t, "any_error", err.Error())
 	})
 }
