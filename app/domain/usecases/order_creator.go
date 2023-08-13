@@ -1,7 +1,6 @@
 package usecases
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
@@ -29,13 +28,9 @@ func (oc *orderCreatorImpl) CreateOrder(client entities.Client, items []entities
 
 	err := oc.orderRepo.Save(order)
 
-	fmt.Println("Error after saving:", err)
-
 	if err != nil {
-		fmt.Println("Returning due to error.")
 		return nil, err
 	}
 
-	fmt.Println("Order created successfully.")
 	return order, nil
 }

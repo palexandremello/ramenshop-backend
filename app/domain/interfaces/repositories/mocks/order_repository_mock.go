@@ -29,3 +29,8 @@ func (m *MockOrderRepository) GetOrder(orderID int) (*entities.Order, error) {
 	args := m.Called(orderID)
 	return args.Get(0).(*entities.Order), args.Error(1)
 }
+
+func (m *MockOrderRepository) Update(order *entities.Order) error {
+	args := m.Called(order)
+	return args.Error(0)
+}

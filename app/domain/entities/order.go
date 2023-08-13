@@ -8,4 +8,5 @@ type Order struct {
 	Client    Client
 	Items     []OrderItem
 	CreatedAt time.Time
+	ClosedAt  *time.Time
 }

@@ -8,4 +8,5 @@ type OrderRepository interface {
 	AddOrderItem(orderItem *entities.OrderItem) error
 	List() ([]entities.Order, error)
 	GetOrder(orderID int) (*entities.Order, error)
+	Update(order *entities.Order) error
 }
