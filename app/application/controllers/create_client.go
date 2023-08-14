@@ -19,7 +19,7 @@ func NewCreateClientController(useCase usecases.CreateClient) controllers.Create
 }
 
 func (cc *CreateClientController) Create(client *entities.Client) (*entities.Client, error) {
-	createdClient, err := cc.creteClientUseCase.Create(client.ID, client.Name, client.Gender, client.Age)
+	createdClient, err := cc.creteClientUseCase.Create(client.Name, client.Gender, client.Age)
 
 	if err != nil {
 		return nil, fmt.Errorf("could not ceate a consumer %w", err)

@@ -12,7 +12,6 @@ func TestOrder(t *testing.T) {
 	t.Run("ensure to create an order correctly", func(t *testing.T) {
 
 		client := Client{
-			ID:     1,
 			Name:   "Alexandre",
 			Gender: Male,
 			Age:    29,

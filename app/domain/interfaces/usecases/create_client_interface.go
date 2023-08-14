@@ -4,5 +4,5 @@ import "github.com/palexandremello/ramenshop-backend/app/domain/entities"
 
 // CreateClient usecase interface
 type CreateClient interface {
-	Create(id int, name string, gender entities.Gender, age int) (*entities.Client, error)
+	Create(name string, gender entities.Gender, age int) (*entities.Client, error)
 }

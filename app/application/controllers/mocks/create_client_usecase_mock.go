@@ -9,8 +9,8 @@ type CreateClient struct {
 	mock.Mock
 }
 
-func (m *CreateClient) Create(id int, name string, gender entities.Gender, age int) (*entities.Client, error) {
-	args := m.Called(id, name, gender, age)
+func (m *CreateClient) Create(name string, gender entities.Gender, age int) (*entities.Client, error) {
+	args := m.Called(name, gender, age)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
 	}

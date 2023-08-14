@@ -17,7 +17,7 @@ func NewClientSQLRepository(database *sql.DB) repositories.ClientRepository {
 
 func (ca *ClientSQLAdapter) Save(client *entities.Client) error {
 
-	stmt, err := ca.DB.Prepare("INSERT INTO clients (id, name, gender, age) VALUES ($1, $2, $3, $4)")
+	stmt, err := ca.DB.Prepare("INSERT INTO clients (name, gender, age) VALUES ($1, $2, $3)")
 
 	if err != nil {
 		return err
@@ -25,7 +25,7 @@ func (ca *ClientSQLAdapter) Save(client *entities.Client) error {
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(client.ID, client.Name, client.Gender, client.Age)
+	_, err = stmt.Exec(client.Name, client.Gender, client.Age)
 	return err
 }
 
@@ -42,7 +42,7 @@ func (ca *ClientSQLAdapter) List() ([]entities.Client, error) {
 	var clients []entities.Client
 	for rows.Next() {
 		var client entities.Client
-		err = rows.Scan(&client.ID, &client.Name, &client.Gender, &client.Age)
+		err = rows.Scan(&client.Name, &client.Gender, &client.Age)
 
 		if err != nil {
 			return nil, err

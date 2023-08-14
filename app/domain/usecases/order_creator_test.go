@@ -11,7 +11,7 @@ import (
 )
 
 func TestOrderCreator(t *testing.T) {
-	client := entities.Client{ID: 1, Name: "Daft Punk", Gender: entities.Male, Age: 29}
+	client := entities.Client{Name: "Daft Punk", Gender: entities.Male, Age: 29}
 	items := []entities.OrderItem{
 		{ID: 1, Dish: entities.Dish{ID: 1, Name: "Ramen"}, Amount: 1},
 	}

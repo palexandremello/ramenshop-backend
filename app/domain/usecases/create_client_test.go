@@ -32,7 +32,7 @@ func TestCreateClient(t *testing.T) {
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Client")).Return(nil)
 
-		client, err := cc.Create(1, "Maicum", entities.Male, 29)
+		client, err := cc.Create("Maicum", entities.Male, 29)
 
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
@@ -46,7 +46,7 @@ func TestCreateClient(t *testing.T) {
 		cc := NewCreateClient(mockRepo)
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Client")).Return(nil)
-		client, err := cc.Create(1, "", entities.Male, 29)
+		client, err := cc.Create("", entities.Male, 29)
 
 		assert.Error(t, err)
 		assert.Nil(t, client)
@@ -59,7 +59,7 @@ func TestCreateClient(t *testing.T) {
 		cc := NewCreateClient(mockRepo)
 
 		mockRepo.On("Save", mock.AnythingOfType("*entities.Client")).Return(nil)
-		client, err := cc.Create(1, "taok", entities.Male, 29)
+		client, err := cc.Create("taok", entities.Male, 29)
 
 		assert.Error(t, err)
 		assert.Nil(t, client)

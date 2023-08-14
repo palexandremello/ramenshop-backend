@@ -9,7 +9,7 @@ import (
 func TestClient(t *testing.T) {
 
 	t.Run("should return an error if name is empty", func(t *testing.T) {
-		c, err := NewClient(1, "", Male, 29)
+		c, err := NewClient("", Male, 29)
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
@@ -19,7 +19,7 @@ func TestClient(t *testing.T) {
 
 	t.Run("should return an error if name have only spaces", func(t *testing.T) {
 
-		c, err := NewClient(1, "         ", Female, 25)
+		c, err := NewClient("         ", Female, 25)
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
@@ -28,7 +28,7 @@ func TestClient(t *testing.T) {
 
 	t.Run("should return an error if name have less than 5 characters", func(t *testing.T) {
 
-		c, err := NewClient(1, "taok", Male, 20)
+		c, err := NewClient("taok", Male, 20)
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
@@ -37,7 +37,7 @@ func TestClient(t *testing.T) {
 
 	t.Run("should return an error if age is invalid", func(t *testing.T) {
 
-		c, err := NewClient(1, "Alexandre", Female, 140)
+		c, err := NewClient("Alexandre", Female, 140)
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
@@ -46,7 +46,7 @@ func TestClient(t *testing.T) {
 
 	t.Run("should return an error if gender is not contemplated", func(t *testing.T) {
 
-		c, err := NewClient(1, "Alexandre", 3, 29)
+		c, err := NewClient("Alexandre", 3, 29)
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
@@ -55,11 +55,10 @@ func TestClient(t *testing.T) {
 
 	t.Run("ensure should return a valid client", func(t *testing.T) {
 
-		c, err := NewClient(1, "Alexandre", Male, 29)
+		c, err := NewClient("Alexandre", Male, 29)
 
 		assert.NoError(t, err)
 		assert.NotNil(t, c)
-		assert.Equal(t, 1, c.ID)
 		assert.Equal(t, "Alexandre", c.Name)
 		assert.Equal(t, Male, c.Gender)
 		assert.Equal(t, 29, c.Age)

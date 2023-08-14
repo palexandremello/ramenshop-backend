@@ -22,7 +22,7 @@ func NewCreateClient(repo repositories.ClientRepository) usecases.CreateClient {
 	}
 }
 
-func (cc *createClientImpl) Create(id int, name string, gender entities.Gender, age int) (*entities.Client, error) {
+func (cc *createClientImpl) Create(name string, gender entities.Gender, age int) (*entities.Client, error) {
 
 	name = strings.TrimSpace(name)
 	if name == "" {
@@ -34,7 +34,7 @@ func (cc *createClientImpl) Create(id int, name string, gender entities.Gender, 
 	}
 
 	if gender != entities.Male && gender != entities.Female {
-		return nil, errors.New("For now we have only two genders, sorry. We Will fix it soon")
+		return nil, errors.New("for now we have only two genders, sorry. We Will fix it soon")
 	}
 
 	if age < 0 || age > 120 {
@@ -42,7 +42,6 @@ func (cc *createClientImpl) Create(id int, name string, gender entities.Gender, 
 	}
 
 	client := &entities.Client{
-		ID:     id,
 		Name:   name,
 		Gender: gender,
 		Age:    age,

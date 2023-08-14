@@ -13,14 +13,13 @@ const (
 )
 
 type Client struct {
-	ID     int
 	Name   string
 	Gender Gender
 	Age    int
 }
 
 // NewClient creates a new Client, validating that the provided name, gender and age are valid.
-func NewClient(id int, name string, gender Gender, age int) (*Client, error) {
+func NewClient(name string, gender Gender, age int) (*Client, error) {
 	name = strings.TrimSpace(name)
 	if name == "" {
 		return nil, errors.New("name is required")
@@ -31,7 +30,7 @@ func NewClient(id int, name string, gender Gender, age int) (*Client, error) {
 	}
 
 	if gender != Male && gender != Female {
-		return nil, errors.New("For now we have only two genders, sorry. We Will fix it soon")
+		return nil, errors.New("for now we have only two genders, sorry. We Will fix it soon")
 	}
 
 	if age < 0 || age > 120 {
@@ -39,7 +38,6 @@ func NewClient(id int, name string, gender Gender, age int) (*Client, error) {
 	}
 
 	return &Client{
-		ID:     id,
 		Name:   name,
 		Gender: gender,
 		Age:    age,

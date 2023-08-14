@@ -14,7 +14,7 @@ func InitializeDatabase() *sql.DB {
 	port := 5432
 	user := "ramenshop_backend"
 	password := "ramenshop_password"
-	dbname := "ramenshop_db"
+	dbname := "postgres"
 
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 

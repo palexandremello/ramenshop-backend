@@ -19,7 +19,7 @@ func TestCreateClientController(t *testing.T) {
 			Age:    30,
 		}
 
-		mockUseCase.On("Create", client.ID, client.Name, client.Gender, client.Age).Return(client, nil)
+		mockUseCase.On("Create", client.Name, client.Gender, client.Age).Return(client, nil)
 
 		result, err := controller.Create(client)
 
@@ -39,7 +39,7 @@ func TestCreateClientController(t *testing.T) {
 
 		mockErr := errors.New("any_error")
 
-		mockUseCase.On("Create", client.ID, client.Name, client.Gender, client.Age).Return(nil, mockErr)
+		mockUseCase.On("Create", client.Name, client.Gender, client.Age).Return(nil, mockErr)
 
 		_, err := controller.Create(client)
 
