@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
@@ -34,5 +35,18 @@ func TestRegisterTableUseCase(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Equal(t, "table capacity should be more than zero", err.Error())
+	})
+
+	t.Run("should return error if repository fails", func(t *testing.T) {
+		mockTable := &entities.Table{
+			Capacity:    5,
+			IsAvailable: true,
+		}
+		mockRepo.On("Add", mockTable).Return(nil, errors.New("database error"))
+
+		_, err := useCase.Execute(5)
+
+		assert.Error(t, err)
+		assert.Equal(t, "database error", err.Error())
 	})
 }
