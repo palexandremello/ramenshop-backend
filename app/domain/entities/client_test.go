@@ -50,7 +50,7 @@ func TestClient(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Nil(t, c)
-		assert.Equal(t, "For now we have only two genders, sorry. We Will fix it soon", err.Error())
+		assert.Equal(t, "for now we have only two genders, sorry. We Will fix it soon", err.Error())
 	})
 
 	t.Run("ensure should return a valid client", func(t *testing.T) {
