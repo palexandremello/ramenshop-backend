@@ -28,4 +28,11 @@ func TestRegisterTableUseCase(t *testing.T) {
 		assert.NotNil(t, table)
 		assert.Equal(t, 5, table.Capacity)
 	})
+
+	t.Run("should return an error if capacity is non-positive", func(t *testing.T) {
+		_, err := useCase.Execute(-1)
+
+		assert.Error(t, err)
+		assert.Equal(t, "table capacity should be more than zero", err.Error())
+	})
 }
