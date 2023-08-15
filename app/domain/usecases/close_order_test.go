@@ -17,8 +17,7 @@ func TestCloseOrder(t *testing.T) {
 		usecase := NewCloseOrder(mockOrderRepo)
 
 		order := &entities.Order{
-			ID:     1,
-			Client: entities.Client{Name: "Paulo", Gender: 1, Age: 29},
+			ID: 1,
 		}
 
 		mockOrderRepo.On("GetOrder", 1).Return(order, nil)

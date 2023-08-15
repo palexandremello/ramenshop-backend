@@ -21,7 +21,6 @@ func NewOrderCreator(repo repositories.OrderRepository) usecases.OrderCreator { 
 
 func (oc *orderCreatorImpl) CreateOrder(client entities.Client, items []entities.OrderItem) (*entities.Order, error) {
 	order := &entities.Order{
-		Client:    client,
 		Items:     items,
 		CreatedAt: time.Now(),
 	}

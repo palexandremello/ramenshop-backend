@@ -11,12 +11,6 @@ func TestOrder(t *testing.T) {
 
 	t.Run("ensure to create an order correctly", func(t *testing.T) {
 
-		client := Client{
-			Name:   "Alexandre",
-			Gender: Male,
-			Age:    29,
-		}
-
 		dish := Dish{
 			ID:          1,
 			Name:        "Ramen",
@@ -34,13 +28,11 @@ func TestOrder(t *testing.T) {
 
 		order := Order{
 			ID:        1,
-			Client:    client,
 			Items:     []OrderItem{orderItem},
 			CreatedAt: createdAt,
 		}
 
 		assert.Equal(t, 1, order.ID)
-		assert.Equal(t, client, order.Client)
 		assert.Equal(t, []OrderItem{orderItem}, order.Items)
 		assert.Equal(t, createdAt, order.CreatedAt)
 	})

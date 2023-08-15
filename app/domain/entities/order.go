@@ -5,7 +5,8 @@ import "time"
 // Order represents an order
 type Order struct {
 	ID        int
-	Client    Client
+	CustomerName *string
+	PhoneNumber *string
 	Items     []OrderItem
 	CreatedAt time.Time
 	ClosedAt  *time.Time

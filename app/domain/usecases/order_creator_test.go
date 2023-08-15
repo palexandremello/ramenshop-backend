@@ -25,7 +25,6 @@ func TestOrderCreator(t *testing.T) {
 		order, err := uc.CreateOrder(client, items)
 		assert.NoError(t, err)
 		assert.NotNil(t, order)
-		assert.Equal(t, client, order.Client)
 		assert.Equal(t, items, order.Items)
 		mockRepo.AssertExpectations(t)
 	})

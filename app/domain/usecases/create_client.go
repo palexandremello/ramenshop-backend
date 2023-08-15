@@ -3,7 +3,6 @@ package usecases
 import (
 	"errors"
 	"strings"
-
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
 	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories"
 	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/usecases"
