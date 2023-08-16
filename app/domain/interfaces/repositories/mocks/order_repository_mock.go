@@ -22,6 +22,9 @@ func (m *MockOrderRepository) AddOrderItem(orderItem *entities.OrderItem) error 
 
 func (m *MockOrderRepository) List() ([]entities.Order, error) {
 	args := m.Called()
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
 	return args.Get(0).([]entities.Order), args.Error(1)
 }
 

@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
@@ -23,6 +24,18 @@ func TestViewOrders(t *testing.T) {
 
 		assert.NoError(t, err)
 		assert.Equal(t, expectedOrders, orders)
+
+	})
+
+	t.Run("should return an error when repository fails", func(t *testing.T) {
+		mockRepo := new(repomocks.MockOrderRepository)
+		useCase := NewViewOrders(mockRepo)
+		mockRepo.On("List").Return(nil, errors.New("database error"))
+
+		_, err := useCase.GetAllOrders()
+
+		assert.Error(t, err)
+		assert.Equal(t, "database error", err.Error())
 
 	})
 }
