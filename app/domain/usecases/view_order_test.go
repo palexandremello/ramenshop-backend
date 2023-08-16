@@ -51,4 +51,15 @@ func TestViewOrders(t *testing.T) {
 		assert.Equal(t, expectedOrder, order)
 
 	})
+	t.Run("should return error when repository fails for specific order", func(t *testing.T) {
+		mockRepo := new(repomocks.MockOrderRepository)
+		useCase := NewViewOrders(mockRepo)
+		mockRepo.On("GetOrder", 1).Return(nil, errors.New("database error"))
+
+		_, err := useCase.GetOrder(1)
+
+		assert.Error(t, err)
+		assert.Equal(t, "database error", err.Error())
+	})
+
 }

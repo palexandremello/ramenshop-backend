@@ -30,9 +30,11 @@ func (m *MockOrderRepository) List() ([]entities.Order, error) {
 
 func (m *MockOrderRepository) GetOrder(orderID int) (*entities.Order, error) {
 	args := m.Called(orderID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
 	return args.Get(0).(*entities.Order), args.Error(1)
 }
-
 func (m *MockOrderRepository) Update(order *entities.Order) error {
 	args := m.Called(order)
 	return args.Error(0)
