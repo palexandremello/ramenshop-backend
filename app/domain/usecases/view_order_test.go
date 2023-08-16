@@ -38,4 +38,17 @@ func TestViewOrders(t *testing.T) {
 		assert.Equal(t, "database error", err.Error())
 
 	})
+
+	t.Run("should return a specific order", func(t *testing.T) {
+		mockRepo := new(repomocks.MockOrderRepository)
+		useCase := NewViewOrders(mockRepo)
+		expectedOrder := &entities.Order{ID: 1}
+		mockRepo.On("GetOrder", 1).Return(expectedOrder, nil)
+
+		order, err := useCase.GetOrder(1)
+
+		assert.NoError(t, err)
+		assert.Equal(t, expectedOrder, order)
+
+	})
 }
