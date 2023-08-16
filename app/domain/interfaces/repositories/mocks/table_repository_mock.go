@@ -9,9 +9,12 @@ type MockTableRepository struct {
 	mock.Mock
 }
 
-// FindByID implements repositories.TableRepository.
-func (*MockTableRepository) FindByID(id int) (*entities.Table, error) {
-	panic("unimplemented")
+func (m *MockTableRepository) FindByID(id int) (*entities.Table, error) {
+	args := m.Called(id)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*entities.Table), args.Error(1)
 }
 
 // List implements repositories.TableRepository.
@@ -24,9 +27,9 @@ func (*MockTableRepository) Remove(id int) error {
 	panic("unimplemented")
 }
 
-// Update implements repositories.TableRepository.
-func (*MockTableRepository) Update(table *entities.Table) error {
-	panic("unimplemented")
+func (m *MockTableRepository) Update(table *entities.Table) error {
+	args := m.Called(table)
+	return args.Error(0)
 }
 
 func (m *MockTableRepository) Add(table *entities.Table) (*entities.Table, error) {
