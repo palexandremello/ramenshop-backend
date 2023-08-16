@@ -1,0 +1,28 @@
+package usecases
+
+import (
+	"testing"
+
+	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
+	repomocks "github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories/mocks"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestViewOrders(t *testing.T) {
+	t.Run("should return all orders", func(t *testing.T) {
+		mockRepo := new(repomocks.MockOrderRepository)
+		useCase := NewViewOrders(mockRepo)
+		expectedOrders := []entities.Order{
+			{ID: 1},
+			{ID: 2},
+		}
+
+		mockRepo.On("List").Return(expectedOrders, nil)
+
+		orders, err := useCase.GetAllOrders()
+
+		assert.NoError(t, err)
+		assert.Equal(t, expectedOrders, orders)
+
+	})
+}
