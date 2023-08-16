@@ -40,4 +40,23 @@ func TestUpdateTableAvailability(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, "table does not exists", err.Error())
 	})
+
+	t.Run("should return an error if update fails", func(t *testing.T) {
+		mockRepo := new(repomocks.MockTableRepository)
+		useCase := NewUpdateTableAvailabilty(mockRepo)
+
+		mockTable := &entities.Table{
+			ID:          3,
+			IsAvailable: false,
+		}
+
+		mockRepo.On("FindByID", 3).Return(mockTable, nil)
+		mockRepo.On("Update", mockTable).Return(errors.New("database error"))
+
+		err := useCase.Execute(3, true)
+
+		assert.Error(t, err)
+		assert.Equal(t, "database error", err.Error())
+
+	})
 }
