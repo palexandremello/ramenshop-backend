@@ -7,19 +7,19 @@ import (
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
 	repomocks "github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories/mocks"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestRegisterTableUseCase(t *testing.T) {
 
 	mockRepo := new(repomocks.MockTableRepository)
 	useCase := NewRegisterTable(mockRepo)
+	mockTable := &entities.Table{
+		Capacity:    5,
+		IsAvailable: true,
+	}
 
 	t.Run("should register a table successfully", func(t *testing.T) {
-
-		mockTable := &entities.Table{
-			Capacity:    5,
-			IsAvailable: true,
-		}
 
 		mockRepo.On("Add", mockTable).Return(mockTable, nil)
 
@@ -38,11 +38,10 @@ func TestRegisterTableUseCase(t *testing.T) {
 	})
 
 	t.Run("should return error if repository fails", func(t *testing.T) {
-		mockTable := &entities.Table{
-			Capacity:    5,
-			IsAvailable: true,
-		}
-		mockRepo.On("Add", mockTable).Return(nil, errors.New("database error"))
+		mockRepo := new(repomocks.MockTableRepository)
+		useCase := NewRegisterTable(mockRepo)
+
+		mockRepo.On("Add", mock.Anything).Return(nil, errors.New("database error"))
 
 		_, err := useCase.Execute(5)
 

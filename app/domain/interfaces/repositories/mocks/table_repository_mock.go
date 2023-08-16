@@ -31,5 +31,8 @@ func (*MockTableRepository) Update(table *entities.Table) error {
 
 func (m *MockTableRepository) Add(table *entities.Table) (*entities.Table, error) {
 	args := m.Called(table)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
 	return args.Get(0).(*entities.Table), args.Error(1)
 }
