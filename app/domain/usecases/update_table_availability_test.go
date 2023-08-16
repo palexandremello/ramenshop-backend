@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
@@ -26,5 +27,17 @@ func TestUpdateTableAvailability(t *testing.T) {
 
 		assert.NoError(t, err)
 		assert.True(t, mockTable.IsAvailable)
+	})
+
+	t.Run("should return an error if table does not exist", func(t *testing.T) {
+		mockRepo := new(repomocks.MockTableRepository)
+		useCase := NewUpdateTableAvailabilty(mockRepo)
+
+		mockRepo.On("FindByID", 2).Return(nil, errors.New("table not found"))
+
+		err := useCase.Execute(2, true)
+
+		assert.Error(t, err)
+		assert.Equal(t, "table does not exists", err.Error())
 	})
 }
