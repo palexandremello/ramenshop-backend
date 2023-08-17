@@ -23,7 +23,7 @@ func TestUpdateTableAvailability(t *testing.T) {
 		mockRepo.On("FindByID", 1).Return(mockTable, nil)
 		mockRepo.On("Update", mockTable).Return(nil)
 
-		err := useCase.Execute(1, true)
+		_, err := useCase.Execute(1, true)
 
 		assert.NoError(t, err)
 		assert.True(t, mockTable.IsAvailable)
@@ -35,7 +35,7 @@ func TestUpdateTableAvailability(t *testing.T) {
 
 		mockRepo.On("FindByID", 2).Return(nil, errors.New("table not found"))
 
-		err := useCase.Execute(2, true)
+		_, err := useCase.Execute(2, true)
 
 		assert.Error(t, err)
 		assert.Equal(t, "table does not exists", err.Error())
@@ -53,7 +53,7 @@ func TestUpdateTableAvailability(t *testing.T) {
 		mockRepo.On("FindByID", 3).Return(mockTable, nil)
 		mockRepo.On("Update", mockTable).Return(errors.New("database error"))
 
-		err := useCase.Execute(3, true)
+		_, err := useCase.Execute(3, true)
 
 		assert.Error(t, err)
 		assert.Equal(t, "database error", err.Error())

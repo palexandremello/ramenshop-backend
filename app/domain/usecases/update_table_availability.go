@@ -3,6 +3,7 @@ package usecases
 import (
 	"errors"
 
+	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
 	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/repositories"
 	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/usecases"
 )
@@ -19,12 +20,12 @@ func NewUpdateTableAvailabilty(repo repositories.TableRepository) usecases.Updat
 	}
 }
 
-func (uta *updateTableAvailabiltyImpl) Execute(tableID int, isAvailable bool) error {
+func (uta *updateTableAvailabiltyImpl) Execute(tableID int, isAvailable bool) (*entities.Table, error) {
 
 	table, err := uta.tableRepo.FindByID(tableID)
 
 	if table == nil || err != nil {
-		return errors.New("table does not exists")
+		return nil, errors.New("table does not exists")
 	}
 
 	table.IsAvailable = isAvailable
@@ -32,8 +33,8 @@ func (uta *updateTableAvailabiltyImpl) Execute(tableID int, isAvailable bool) er
 	err = uta.tableRepo.Update(table)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return table, nil
 }
