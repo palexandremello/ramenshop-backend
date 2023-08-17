@@ -9,19 +9,26 @@ import (
 )
 
 type dishUseCaseImpl struct {
-	dishRepo repositories.DishRepository
+	dishRepo           repositories.DishRepository
+	createPhotoUseCase usecases.CreatePhoto
 }
 
 var _ usecases.CreateDish = &dishUseCaseImpl{}
 
 // NewDishUseCase creates a new instance of CreateDish
-func NewDishUseCase(repo repositories.DishRepository) usecases.CreateDish {
-	return &dishUseCaseImpl{dishRepo: repo}
+func NewDishUseCase(repo repositories.DishRepository, useCase usecases.CreatePhoto) usecases.CreateDish {
+	return &dishUseCaseImpl{dishRepo: repo, createPhotoUseCase: useCase}
 }
 
-func (du *dishUseCaseImpl) Create(name string, description string, photo *entities.Photo) (*entities.Dish, error) {
+func (du *dishUseCaseImpl) Create(name string, description string, photoURL string) (*entities.Dish, error) {
 	if name == "" {
 		return nil, errors.New("name is required")
+	}
+
+	photo, err := du.createPhotoUseCase.Create(photoURL)
+
+	if err != nil {
+		return nil, err
 	}
 
 	dish := &entities.Dish{
@@ -30,7 +37,7 @@ func (du *dishUseCaseImpl) Create(name string, description string, photo *entiti
 		Photo:       photo,
 	}
 
-	err := du.dishRepo.AddDish(dish)
+	err = du.dishRepo.AddDish(dish)
 
 	if err != nil {
 		return nil, err
