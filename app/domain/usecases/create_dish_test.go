@@ -17,6 +17,11 @@ func (m *MockCreatePhoto) Create(url string) (*entities.Photo, error) {
 	args := m.Called(url)
 	return args.Get(0).(*entities.Photo), args.Error(1)
 }
+func (m *MockCreatePhoto) Upload(file []byte, fileName string) (*entities.Photo, error) {
+	args := m.Called(file, fileName)
+	return args.Get(0).(*entities.Photo), args.Error(1)
+
+}
 
 func TestDishUseCase_Create(t *testing.T) {
 

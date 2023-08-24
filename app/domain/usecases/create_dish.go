@@ -35,6 +35,7 @@ func (du *dishUseCaseImpl) Create(name string, description string, photoURL stri
 		Name:        name,
 		Description: description,
 		Photo:       photo,
+		Available:   true,
 	}
 
 	err = du.dishRepo.AddDish(dish)
@@ -44,4 +45,35 @@ func (du *dishUseCaseImpl) Create(name string, description string, photoURL stri
 	}
 
 	return dish, nil
+}
+
+func (du *dishUseCaseImpl) Execute(name string, description string, file []byte, fileName string, price float64, dishType string) (*entities.Dish, error) {
+
+	if name == "" {
+		return nil, errors.New("name is required")
+	}
+
+	photo, err := du.createPhotoUseCase.Upload(file, fileName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	dish := &entities.Dish{
+		Name:        name,
+		Description: description,
+		Photo:       photo,
+		Available:   true,
+		Price:       price,
+		Type:        dishType,
+	}
+
+	err = du.dishRepo.AddDish(dish)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return dish, nil
+
 }

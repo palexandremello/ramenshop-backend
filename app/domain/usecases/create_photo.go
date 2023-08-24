@@ -10,15 +10,17 @@ import (
 )
 
 type createPhotoImpl struct {
-	photoRepo   repositories.PhotoRepository
-	httpService services.HTTPService
+	photoRepo    repositories.PhotoRepository
+	httpService  services.HTTPService
+	fileUploader services.FileUploader
 }
 
 var _ usecases.CreatePhoto = &createPhotoImpl{}
 
 // NewPhotoUseCase factory
-func NewPhotoUseCase(repo repositories.PhotoRepository, httpService services.HTTPService) usecases.CreatePhoto {
-	return &createPhotoImpl{photoRepo: repo, httpService: httpService}
+func NewPhotoUseCase(repo repositories.PhotoRepository, httpService services.HTTPService, fileUploader services.FileUploader) usecases.CreatePhoto {
+	return &createPhotoImpl{photoRepo: repo, httpService: httpService,
+		fileUploader: fileUploader}
 }
 
 func (pu *createPhotoImpl) Create(url string) (*entities.Photo, error) {
@@ -38,6 +40,27 @@ func (pu *createPhotoImpl) Create(url string) (*entities.Photo, error) {
 
 	photo := &entities.Photo{
 		URL: url,
+	}
+
+	err = pu.photoRepo.Save(photo)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return photo, nil
+}
+
+func (pu *createPhotoImpl) Upload(file []byte, fileName string) (*entities.Photo, error) {
+
+	uploadedURL, err := pu.fileUploader.Upload(file, fileName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	photo := &entities.Photo{
+		URL: uploadedURL,
 	}
 
 	err = pu.photoRepo.Save(photo)

@@ -8,5 +8,5 @@ type Dish struct {
 	Photo       *Photo
 	Price       float64
 	Available   bool
-	Type        DishType
+	Type        string
 }

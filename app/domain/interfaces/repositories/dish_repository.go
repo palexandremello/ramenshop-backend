@@ -6,6 +6,7 @@ import "github.com/palexandremello/ramenshop-backend/app/domain/entities"
 type DishRepository interface {
 	GetDish(dishID int) (*entities.Dish, error)
 	ListDishesByType(dishType entities.DishType) ([]*entities.Dish, error)
+	ListAllDishes() ([]*entities.Dish, error)
 	AddDish(dish *entities.Dish) error
 	UpdateDish(dish *entities.Dish) error
 	DeleteDish(dishID int) error

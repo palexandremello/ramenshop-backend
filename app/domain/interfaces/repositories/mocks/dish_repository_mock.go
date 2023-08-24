@@ -9,6 +9,11 @@ type MockDishRepository struct {
 	mock.Mock
 }
 
+// ListAllDishes implements repositories.DishRepository.
+func (*MockDishRepository) ListAllDishes() ([]*entities.Dish, error) {
+	panic("unimplemented")
+}
+
 func (m *MockDishRepository) GetDish(dishID int) (*entities.Dish, error) {
 	args := m.Called(dishID)
 	dish, ok := args.Get(0).(*entities.Dish)
