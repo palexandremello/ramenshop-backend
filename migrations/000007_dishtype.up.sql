@@ -1,0 +1,1 @@
+CREATE TYPE dishtype AS ENUM ('Acompanhamento', 'Prato Principal', 'Sobremesa', 'Drink');
