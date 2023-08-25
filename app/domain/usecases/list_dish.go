@@ -20,3 +20,12 @@ func NewListDishUseCase(repo repositories.DishRepository) usecases.ListDish {
 func (ld *listDishUseCaseImpl) List() ([]*entities.Dish, error) {
 	return ld.dishRepo.ListAllDishes()
 }
+
+func (ld *listDishUseCaseImpl) ListDishesByID(dishID int) (*entities.Dish, error) {
+
+	return ld.dishRepo.GetDish(dishID)
+}
+
+func (ld *listDishUseCaseImpl) ListDishesByType(dishType string) ([]*entities.Dish, error) {
+	return ld.dishRepo.ListDishesByType(dishType)
+}

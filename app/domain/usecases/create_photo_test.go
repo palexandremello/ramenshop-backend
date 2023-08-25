@@ -10,6 +10,15 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+type MockFileUploader struct {
+	mock.Mock
+}
+
+func (m *MockFileUploader) Upload(file []byte, fileName string) (string, error) {
+	args := m.Called(file, fileName)
+	return args.String(0), args.Error(1)
+}
+
 type MockPhotoRepository struct {
 	mock.Mock
 }
@@ -37,7 +46,8 @@ type testResources struct {
 func setUp() *testResources {
 	mockRepo := new(MockPhotoRepository)
 	mockHTTPService := new(MockHTTPService)
-	uc := NewPhotoUseCase(mockRepo, mockHTTPService)
+	mockFileUploader := new(MockFileUploader)
+	uc := NewPhotoUseCase(mockRepo, mockHTTPService, mockFileUploader)
 
 	return &testResources{
 		mockRepo:        mockRepo,

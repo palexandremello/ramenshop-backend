@@ -23,7 +23,7 @@ func (m *MockDishRepository) GetDish(dishID int) (*entities.Dish, error) {
 	return dish, args.Error(1)
 }
 
-func (m *MockDishRepository) ListDishesByType(dishType entities.DishType) ([]*entities.Dish, error) {
+func (m *MockDishRepository) ListDishesByType(dishType string) ([]*entities.Dish, error) {
 	args := m.Called(dishType)
 	return args.Get(0).([]*entities.Dish), args.Error(1)
 }

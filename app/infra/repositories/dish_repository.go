@@ -74,7 +74,7 @@ func (da *DishSQLAdapter) GetDish(dishID int) (*entities.Dish, error) {
 }
 
 // ListDishesByType is a method that lists dishes by type from the database
-func (da *DishSQLAdapter) ListDishesByType(dishType entities.DishType) ([]*entities.Dish, error) {
+func (da *DishSQLAdapter) ListDishesByType(dishType string) ([]*entities.Dish, error) {
 	rows, err := da.DB.Query("SELECT id, name, description, photo_id, price, available, type, created_at FROM dishes WHERE type = $1", dishType)
 	if err != nil {
 		return nil, err
