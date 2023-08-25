@@ -53,5 +53,9 @@ func main() {
 	listDishHandler := handlers.NewListDishHandler(listDishController)
 	r.GET("/dish", listDishHandler.GinHandler)
 
+	orderStarterEndpoint := factories.NewOrderStarterEndpointFactory(dbConnection)
+	orderStarterHandler := orderStarterEndpoint.CreateEndpoint()
+	r.POST("/orders", orderStarterHandler.GinHandler)
+
 	r.Run()
 }
