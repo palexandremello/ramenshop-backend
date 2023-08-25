@@ -59,7 +59,7 @@ func (da *DishSQLAdapter) ListAllDishes() ([]*entities.Dish, error) {
 
 // GetDish is a method that gets a dish from the database
 func (da *DishSQLAdapter) GetDish(dishID int) (*entities.Dish, error) {
-	row := da.DB.QueryRow("SELECT id, name, description, photo_id, price, available, type, created_at FROM dishes WHERE id = $1", dishID)
+	row := da.DB.QueryRow("SELECT id, name, description, photo_id, price, available, type FROM dishes WHERE id = $1", dishID)
 
 	dish := &entities.Dish{}
 	var photoID int
@@ -75,7 +75,7 @@ func (da *DishSQLAdapter) GetDish(dishID int) (*entities.Dish, error) {
 
 // ListDishesByType is a method that lists dishes by type from the database
 func (da *DishSQLAdapter) ListDishesByType(dishType string) ([]*entities.Dish, error) {
-	rows, err := da.DB.Query("SELECT id, name, description, photo_id, price, available, type, created_at FROM dishes WHERE type = $1", dishType)
+	rows, err := da.DB.Query("SELECT id, name, description, photo_id, price, available, type FROM dishes WHERE type = $1", dishType)
 	if err != nil {
 		return nil, err
 	}
