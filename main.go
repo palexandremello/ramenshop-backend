@@ -57,5 +57,10 @@ func main() {
 	orderStarterHandler := orderStarterEndpoint.CreateEndpoint()
 	r.POST("/orders", orderStarterHandler.GinHandler)
 
+	viewMenuEndpoint := factories.NewViewMenuEndpointFactory(dbConnection)
+	viewMenuHandler := viewMenuEndpoint.CreateEndpoint()
+
+	r.GET("/menu", viewMenuHandler.GinHandler)
+
 	r.Run()
 }
