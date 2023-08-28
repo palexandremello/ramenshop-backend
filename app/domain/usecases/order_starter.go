@@ -63,6 +63,8 @@ func (os *orderStarterImpl) StartOrder(customerName *string, tableID int, dishIn
 		if err != nil {
 			return nil, err
 		}
+
+		order.Items = append(order.Items, *orderItem)
 	}
 	return order, nil
 }

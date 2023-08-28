@@ -7,6 +7,7 @@ import (
 	"github.com/palexandremello/ramenshop-backend/app/domain/usecases"
 	"github.com/palexandremello/ramenshop-backend/app/infra/http/handlers"
 	"github.com/palexandremello/ramenshop-backend/app/infra/repositories"
+	"github.com/palexandremello/ramenshop-backend/app/infra/services"
 )
 
 type OrderStarterEndpointFactory struct {
@@ -25,7 +26,9 @@ func (f *OrderStarterEndpointFactory) CreateEndpoint() *handlers.OrderStarterHan
 	orderRepository := repositories.NewOrderSQLRepository(f.dbConnection)
 	orderTableRepository := repositories.NewOrderTableSQLRepository(f.dbConnection)
 	orderStarterUseCase := usecases.NewOrderStarterUseCase(orderRepository, orderItemRepository, dishRepository, orderTableRepository)
-	orderStarterController := controllers.NewOrderStarterController(orderStarterUseCase)
+	emailNotifier := services.NewEmailNotifier("palexandremello@gmail.com", "gtwvbzjybizxfjxi", "palexandremello@gmail.com")
+	notifierKitchenUseCase := usecases.NewNotifyKitchenUseCase(emailNotifier)
+	orderStarterController := controllers.NewOrderStarterController(orderStarterUseCase, notifierKitchenUseCase)
 
 	handlerInstance := handlers.NewOrderStarterHandler(orderStarterController)
 
