@@ -2,6 +2,7 @@ package factories
 
 import (
 	"database/sql"
+	"os"
 
 	"github.com/palexandremello/ramenshop-backend/app/application/controllers"
 	"github.com/palexandremello/ramenshop-backend/app/domain/usecases"
@@ -10,6 +11,7 @@ import (
 	"github.com/palexandremello/ramenshop-backend/app/infra/services"
 )
 
+// OrderStarterEndpointFactory is a factory that creates a new OrderStarterHandler
 type OrderStarterEndpointFactory struct {
 	dbConnection *sql.DB
 }
@@ -26,8 +28,9 @@ func (f *OrderStarterEndpointFactory) CreateEndpoint() *handlers.OrderStarterHan
 	orderRepository := repositories.NewOrderSQLRepository(f.dbConnection)
 	orderTableRepository := repositories.NewOrderTableSQLRepository(f.dbConnection)
 	orderStarterUseCase := usecases.NewOrderStarterUseCase(orderRepository, orderItemRepository, dishRepository, orderTableRepository)
-	emailNotifier := services.NewEmailNotifier("palexandremello@gmail.com", "gtwvbzjybizxfjxi", "palexandremello@gmail.com")
-	notifierKitchenUseCase := usecases.NewNotifyKitchenUseCase(emailNotifier)
+	publisher := services.NewRedisPublisherEvent(os.Getenv("REDIS_PUBLISHER_ADDR"))
+	notifier := services.NewRedisNotifier(publisher)
+	notifierKitchenUseCase := usecases.NewNotifyKitchenUseCase(notifier)
 	orderStarterController := controllers.NewOrderStarterController(orderStarterUseCase, notifierKitchenUseCase)
 
 	handlerInstance := handlers.NewOrderStarterHandler(orderStarterController)
