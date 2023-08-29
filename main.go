@@ -62,5 +62,12 @@ func main() {
 
 	r.GET("/menu", viewMenuHandler.GinHandler)
 
+	// Close Order Setup
+	orderRepository := repositories.NewOrderSQLRepository(dbConnection)
+	closeOrderUseCase := usecases.NewCloseOrder(orderRepository)
+	closeOrderController := controllers.NewCloseOrderController(closeOrderUseCase)
+	closeOrderHandler := handlers.NewCloseOrderHandler(closeOrderController)
+	r.PATCH("/orders", closeOrderHandler.GinHandler)
+
 	r.Run()
 }
