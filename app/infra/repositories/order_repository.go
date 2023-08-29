@@ -70,7 +70,7 @@ func (oa *OrderSQLAdapter) GetOrder(orderID int) (*entities.Order, error) {
 
 // Update updates the details of an existing order
 func (oa *OrderSQLAdapter) Update(order *entities.Order) error {
-	stmt, err := oa.DB.Prepare("UPDATE orders SET customer_name = $1, phone_number = $2, table_id = $3, status = $4 closed_at = $5 WHERE id = $6")
+	stmt, err := oa.DB.Prepare("UPDATE orders SET customer_name = $1, phone_number = $2, table_id = $3, status = $4, closed_at = $5 WHERE id = $6")
 	if err != nil {
 		return err
 	}
@@ -78,4 +78,27 @@ func (oa *OrderSQLAdapter) Update(order *entities.Order) error {
 
 	_, err = stmt.Exec(order.CustomerName, order.PhoneNumber, order.TableID, order.Status, order.ClosedAt, order.ID)
 	return err
+}
+
+// GetPendingOrders retrieves all orders that are pending
+func (oa *OrderSQLAdapter) GetPendingOrders() ([]entities.Order, error) {
+	rows, err := oa.DB.Query("SELECT id, customer_name, phone_number, table_id, status, created_at, closed_at FROM orders WHERE status = 'EM PREPARO'")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var orders []entities.Order
+	for rows.Next() {
+		var order entities.Order
+		err := rows.Scan(&order.ID, &order.CustomerName, &order.PhoneNumber, &order.TableID, &order.Status, &order.CreatedAt, &order.ClosedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		orders = append(orders, order)
+	}
+	return orders, nil
 }

@@ -21,6 +21,7 @@ func NewCloseOrder(repo repositories.OrderRepository) usecases.CloseOrder {
 func (co *closeOrderImpl) Execute(orderID int) error {
 	order, err := co.OrderRepo.GetOrder(orderID)
 
+	order.Status = "FINALIZADO"
 	if err != nil {
 		return err
 	}
