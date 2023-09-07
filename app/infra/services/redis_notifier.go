@@ -6,6 +6,7 @@ import (
 
 	"github.com/palexandremello/ramenshop-backend/app/domain/entities"
 	"github.com/palexandremello/ramenshop-backend/app/domain/interfaces/services"
+	"github.com/palexandremello/ramenshop-backend/app/infra/utils"
 )
 
 // RedisNotifier is a struct that implements the Notifier interface
@@ -21,7 +22,7 @@ func NewRedisNotifier(pub services.PublisherEvent) services.Notifier {
 // NotifyNewOrder is a method that notifies a new order
 func (rn *RedisNotifier) NotifyNewOrder(order *entities.Order) error {
 	channel := os.Getenv("REDIS_PUBLISHER_CHANNEL")
-	message := formatOrder(order)
+	message := utils.FormatOrder(order)
 
 	return rn.publisher.Execute(channel, message)
 }
