@@ -4,17 +4,23 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 
 	_ "github.com/lib/pq"
 )
 
 func InitializeDatabase() *sql.DB {
 
-	host := "172.18.0.1"
-	port := 5432
-	user := "postgres"
-	password := "postgres"
-	dbname := "postgres"
+	host := os.Getenv("DB_HOST")
+	portStr := os.Getenv("DB_PORT")
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		log.Fatalf("Failed to convert port to integer: %v", err)
+	}
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
 
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
