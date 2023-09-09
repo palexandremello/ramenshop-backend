@@ -15,6 +15,7 @@ func InitializeDatabase() *sql.DB {
 	host := os.Getenv("DB_HOST")
 	portStr := os.Getenv("DB_PORT")
 	port, err := strconv.Atoi(portStr)
+	sslmode := os.Getenv("DB_SSLMODE")
 	if err != nil {
 		log.Fatalf("Failed to convert port to integer: %v", err)
 	}
@@ -22,7 +23,7 @@ func InitializeDatabase() *sql.DB {
 	password := os.Getenv("DB_PASSWORD")
 	dbname := os.Getenv("DB_NAME")
 
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbname, sslmode)
 
 	fmt.Println(connStr)
 	db, err := sql.Open("postgres", connStr)
